@@ -24,41 +24,39 @@ let result = take 5 [13,26..]
 ```
 
 ```hs
-let rightTriangles = 
-  [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], 
-    a^2 + b^2 == c^2, a+b+c == 24]
+let rightTriangles = [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], a^2 + b^2 == c^2, a+b+c == 24]
 -- > rightTriangles
 -- [(8,6,10)]
 ```
 
 ```hs
-maximum' :: (Ord a) => [a] -> a
-maximum' [] = error "empty list"
-maximum' [x] = x
-maximum' (x:xs) = max x (maximum' xs)
+maximum :: (Ord a) => [a] -> a
+maximum [] = error "empty list"
+maximum [x] = x
+maximum (x:xs) = max x (maximum xs)
 
-let result = maximum' [1,2,3]
+let result = maximum [1,2,3]
 -- > result
 -- 3
 ```
 
 ```hs
-reverse' :: a -> [a]
-reverse' [] = []
-reverse' (x:xs) = reverse' xs ++ [x]
+reverse :: a -> [a]
+reverse [] = []
+reverse (x:xs) = reverse xs ++ [x]
 
-let result = reverse' [1,2,3]
+let result = reverse [1,2,3]
 -- > result
 -- [3,2,1]
 ```
 
 ```hs
-zip' :: [a] -> [b] -> [(a,b)]
-zip' _ [] = []
-zip' [] _ = []
-zip' (x:xs) (y:ys) = (x,y) : zip' xs ys
+zip :: [a] -> [b] -> [(a,b)]
+zip _ [] = []
+zip [] _ = []
+zip (x:xs) (y:ys) = (x,y) : zip xs ys
 
-let result = zip' [1,2,3] [1,2,3]
+let result = zip [1,2,3] [1,2,3]
 -- > result
 -- [(1,1),(2,2),(3,3)]
 ```
@@ -66,6 +64,29 @@ let result = zip' [1,2,3] [1,2,3]
 ```hs
 repeat' :: a -> [a]
 repeat' x = x : repeat' x
+```
+
+### Higher order function
+
+```hs
+map :: (a -> b) -> [a] -> [b]
+map _ [] = []
+map f (x:xs) = f x : map f xs
+
+let result = map (+3) [1,2,3]
+-- > result
+-- [4,5,6]
+```
+
+```hs
+zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith _ [] _ = []
+zipWith _ _ [] = []
+zipWith f (x:xs) (y:ys) = f x y : zipWith f xs ys
+
+let result = zipWith (\x y -> x + 2y) [1,2,3] [4,5,6]
+-- > result
+-- [9,12,15]
 ```
 
 ### Function composition
@@ -152,7 +173,7 @@ getLine >>= \x -> return (x ++ x) >>= print
 ```
 
 ```hs
-action1 >>= (\ x1 -> action2 >>= (\ x2 -> action3 x1 x2 ))
+action1 >>= (\x1 -> action2 >>= (\x2 -> action3 x1 x2 ))
 ```
 
 ### Quick sort
@@ -161,8 +182,8 @@ action1 >>= (\ x1 -> action2 >>= (\ x2 -> action3 x1 x2 ))
 quicksort :: (Ord a) => [a] -> [a]
 quicksort [] = []
 quicksort (x:xs) = 
-  let smallerOrEqual = [a | a <- xs, a <= x]
-      larger = [a | a <- xs, a > x]
+  let smallerOrEqual = filter (<= x) xs
+      larger = filter (> x) xs
   in quicksort smallerOrEqual ++ [x] ++ quicksort larger
 
 -- > quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
