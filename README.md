@@ -3,6 +3,34 @@
 
 Short code snippets for the beauty of Haskell.
 
+### List
+
+```hs
+let result = 1:2:3:4:[]
+-- > result
+-- [1,2,3,4]
+```
+
+```hs
+let result = [1,2,3,4] ++ [5,6,7,8]
+-- > result
+-- [1,2,3,4,5,6,7,8]
+```
+
+```hs
+let result = take 5 [13,26..]
+-- > result
+-- [13,26,39,52,65]
+```
+
+```hs
+let rightTriangles = 
+  [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], 
+    a^2 + b^2 == c^2, a+b+c == 24]
+-- > rightTriangles
+-- [(8,6,10)]
+```
+
 ### Function composition
 
 ```hs
