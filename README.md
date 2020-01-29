@@ -3,6 +3,21 @@
 
 Short code snippets for the beauty of Haskell.
 
+### Function composition
+
+```hs
+fn = ceiling . negate . tan . cos . max 50
+```
+
+```hs
+replicate 2 . product . map (*3) $ zipWith max [1,2] [4,5]
+```
+
+```
+oddSquareSum :: Integer
+oddSquareSum = sum . takeWhile (<10000) . filter odd $ map (^2) [1..]
+```
+
 ### Applicative functor
 
 ```hs
@@ -30,6 +45,12 @@ let result = filter (>50) $ (*) <$> [2,5,10] <*> [8,10,11]
 ```
 
 ```hs
+let result = getZipList $ (+) <$> ZipList [1,2,3] <*> ZipList [100,100..]
+-- > result
+-- [101,102,103]
+```
+
+```hs
 main = do
   a <- (++) <$> getLine <*> getLine
   putStrLn $ "The two lines: " ++ a
@@ -38,16 +59,11 @@ main = do
 ### Monad
 
 ```hs
-return :: Monad m => a -> m a
-
-getLine >>= \x -> return (x ++ x) >>= print
-```
-
-```hs
 liftM :: (Modan m) => (a -> b) -> m a -> m b
 liftM f m = m >>= (\x -> return (f x))
 
--- > liftM (*3) (Just 8)
+let result = liftM (*3) (Just 8)
+-- > result
 -- Just 24
 ```
 
@@ -61,8 +77,15 @@ accMoreThan10 acc x
   | x > 10    = Nothing
   | otherwise = Just (acc + x)
 
--- > foldM accMoreThan10 0 [8,9,10,11,12]
+let result = foldM accMoreThan10 0 [8,9,10,11,12]
+-- > result
 -- Just 23
+```
+
+```hs
+return :: Monad m => a -> m a
+
+getLine >>= \x -> return (x ++ x) >>= print
 ```
 
 ```hs
@@ -78,6 +101,12 @@ quicksort (x:xs) = 
   let smallerOrEqual = [a | a <- xs, a <= x]
       larger = [a | a <- xs, a > x]
   in quicksort smallerOrEqual ++ [x] ++ quicksort larger
+
+-- > quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
+-- [1,2,2,3,3,4,4,5,6,7,8,9,10]
+
+-- > quicksort "the quick brown fox jumps over the lazy dog"
+-- "abcdeeefghhijklmnoooopqrrsttuuvwxyz”
 ```
 
 ### Binary search tree
@@ -126,7 +155,7 @@ hasElem x (Node a left right)   
 -- False
 ```
 
-## Walk the line
+### Walk the line
 
 from [Learn You a Haskell for Great Good!](http://learnyouahaskell.com/a-fistful-of-monads)
 
