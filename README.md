@@ -31,6 +31,43 @@ let rightTriangles = 
 -- [(8,6,10)]
 ```
 
+```hs
+maximum' :: (Ord a) => [a] -> a
+maximum' [] = error "empty list"
+maximum' [x] = x
+maximum' (x:xs) = max x (maximum' xs)
+
+let result = maximum' [1,2,3]
+-- > result
+-- 3
+```
+
+```hs
+reverse' :: a -> [a]
+reverse' [] = []
+reverse' (x:xs) = reverse' xs ++ [x]
+
+let result = reverse' [1,2,3]
+-- > result
+-- [3,2,1]
+```
+
+```hs
+zip' :: [a] -> [b] -> [(a,b)]
+zip' _ [] = []
+zip' [] _ = []
+zip' (x:xs) (y:ys) = (x,y) : zip' xs ys
+
+let result = zip' [1,2,3] [1,2,3]
+-- > result
+-- [(1,1),(2,2),(3,3)]
+```
+
+```hs
+repeat' :: a -> [a]
+repeat' x = x : repeat' x
+```
+
 ### Function composition
 
 ```hs
@@ -41,7 +78,7 @@ fn = ceiling . negate . tan . cos . max 50
 replicate 2 . product . map (*3) $ zipWith max [1,2] [4,5]
 ```
 
-```
+```hs
 oddSquareSum :: Integer
 oddSquareSum = sum . takeWhile (<10000) . filter odd $ map (^2) [1..]
 ```
@@ -111,8 +148,6 @@ let result = foldM accMoreThan10 0 [8,9,10,11,12]
 ```
 
 ```hs
-return :: Monad m => a -> m a
-
 getLine >>= \x -> return (x ++ x) >>= print
 ```
 
