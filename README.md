@@ -179,18 +179,45 @@ action1 >>= (\x1 -> action2 >>= (\x2 -> action3 x1 x2 ))
 ### Quick sort
 
 ```hs
-quicksort :: (Ord a) => [a] -> [a]
-quicksort [] = []
-quicksort (x:xs) = 
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) = 
   let smallerOrEqual = filter (<= x) xs
-      larger = filter (> x) xs
-  in quicksort smallerOrEqual ++ [x] ++ quicksort larger
+      larger         = filter (> x) xs
+  in quickSort smallerOrEqual ++ [x] ++ quickSort larger
 
--- > quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
+-- > quickSort [10,2,5,3,1,6,7,4,2,3,4,8,9]
 -- [1,2,2,3,3,4,4,5,6,7,8,9,10]
 
--- > quicksort "the quick brown fox jumps over the lazy dog"
--- "abcdeeefghhijklmnoooopqrrsttuuvwxyz”
+-- > quickSort "lorem ipsum dolor sit amet, consectetur adipiscing elit"
+-- "       ,aacccddeeeeegiiiiiilllmmmnnoooopprrrsssstttttuu"
+```
+
+### Merge sort
+
+```hs
+merge :: (Ord a) => [a] -> [a] -> [a]
+merge [] xs = xs
+merge xs [] = xs
+merge (x:xs) (y:ys)
+  | x <= y    = x:merge xs (y:ys)
+  | otherwise = y:merge (x:xs) ys
+
+half :: [a] -> ([a], [a])
+half xs = (take n xs, drop n xs)
+  where n = length xs `div` 2 
+
+mergeSort :: (Ord a) => [a] -> [a]
+mergeSort xs 
+  | length xs < 2 = xs
+  | otherwise     = merge (mergeSort ls) (mergeSort rs)
+  where (ls, rs) = half xs
+
+-- > mergeSort [1,20,3,5,6,6,7,34,1,90]
+-- [1,1,3,5,6,6,7,20,34,90]
+
+-- > mergeSort "lorem ipsum dolor sit amet, consectetur adipiscing elit"
+-- "       ,aacccddeeeeegiiiiiilllmmmnnoooopprrrsssstttttuu"
 ```
 
 ### Binary search tree
