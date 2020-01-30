@@ -220,7 +220,7 @@ swap (x) = (x)
 bubbleSort :: (Ord a) => [a] -> [a]
 bubbleSort xs
   | swapped == xs = xs
-  | otherwise      = bubbleSort swapped
+  | otherwise     = bubbleSort swapped
   where swapped = swap xs
 ```
 
