@@ -185,12 +185,6 @@ quickSort (x:xs) = 
   let smallerOrEqual = filter (<= x) xs
       larger         = filter (> x) xs
   in quickSort smallerOrEqual ++ [x] ++ quickSort larger
-
--- > quickSort [10,2,5,3,1,6,7,4,2,3,4,8,9]
--- [1,2,2,3,3,4,4,5,6,7,8,9,10]
-
--- > quickSort "lorem ipsum dolor sit amet, consectetur adipiscing elit"
--- "       ,aacccddeeeeegiiiiiilllmmmnnoooopprrrsssstttttuu"
 ```
 
 ### Merge sort
@@ -219,17 +213,15 @@ mergeSort xs
 ```hs
 swap :: (Ord a) => [a] -> [a]
 swap (x:y:xs)
-    | x <= y    = x : swap (y:xs)
-    | otherwise = y : swap (x:xs)
+  | x <= y    = x : swap (y:xs)
+  | otherwise = y : swap (x:xs)
 swap (x) = (x)
 
-bubbleSort' :: (Ord a) => [a] -> Int -> [a]
-bubbleSort' xs i
-    | i == length xs = xs
-    | otherwise      = bubbleSort' (swap xs) (i + 1) 
- 
 bubbleSort :: (Ord a) => [a] -> [a]
-bubbleSort xs = bubbleSort' xs 0
+bubbleSort xs
+  | swapped == xs = xs
+  | otherwise      = bubbleSort swapped
+  where swapped = swap xs
 ```
 
 ### Binary search tree
