@@ -212,12 +212,24 @@ mergeSort xs
   | length xs < 2 = xs
   | otherwise     = merge (mergeSort ls) (mergeSort rs)
   where (ls, rs) = half xs
+```
 
--- > mergeSort [1,20,3,5,6,6,7,34,1,90]
--- [1,1,3,5,6,6,7,20,34,90]
+### Bubble sort
 
--- > mergeSort "lorem ipsum dolor sit amet, consectetur adipiscing elit"
--- "       ,aacccddeeeeegiiiiiilllmmmnnoooopprrrsssstttttuu"
+```hs
+swap :: (Ord a) => [a] -> [a]
+swap (x:y:xs)
+    | x <= y    = x : swap (y:xs)
+    | otherwise = y : swap (x:xs)
+swap (x) = (x)
+
+bubbleSort' :: (Ord a) => [a] -> Int -> [a]
+bubbleSort' xs i
+    | i == length xs = xs
+    | otherwise      = bubbleSort' (swap xs) (i + 1) 
+ 
+bubbleSort :: (Ord a) => [a] -> [a]
+bubbleSort xs = bubbleSort' xs 0
 ```
 
 ### Binary search tree
