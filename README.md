@@ -296,3 +296,7 @@ let result =  return (0, 0) >>= landLeft 1 >>= landRight 4 >>= landLef
 -- > result
 -- Nothing
 ```
+
+### Algorithm
+
+https://github.com/okmttdhr/haskell-algorithms
