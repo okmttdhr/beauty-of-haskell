@@ -176,54 +176,6 @@ getLine >>= \x -> return (x ++ x) >>= print
 action1 >>= (\x1 -> action2 >>= (\x2 -> action3 x1 x2 ))
 ```
 
-### Quick sort
-
-```hs
-quickSort :: (Ord a) => [a] -> [a]
-quickSort [] = []
-quickSort (x:xs) = 
-  let smallerOrEqual = filter (<= x) xs
-      larger         = filter (> x) xs
-  in quickSort smallerOrEqual ++ [x] ++ quickSort larger
-```
-
-### Merge sort
-
-```hs
-merge :: (Ord a) => [a] -> [a] -> [a]
-merge [] xs = xs
-merge xs [] = xs
-merge (x:xs) (y:ys)
-  | x <= y    = x:merge xs (y:ys)
-  | otherwise = y:merge (x:xs) ys
-
-half :: [a] -> ([a], [a])
-half xs = (take n xs, drop n xs)
-  where n = length xs `div` 2 
-
-mergeSort :: (Ord a) => [a] -> [a]
-mergeSort xs 
-  | length xs < 2 = xs
-  | otherwise     = merge (mergeSort ls) (mergeSort rs)
-  where (ls, rs) = half xs
-```
-
-### Bubble sort
-
-```hs
-swap :: (Ord a) => [a] -> [a]
-swap (x:y:xs)
-  | x <= y    = x : swap (y:xs)
-  | otherwise = y : swap (x:xs)
-swap (x) = (x)
-
-bubbleSort :: (Ord a) => [a] -> [a]
-bubbleSort xs
-  | swapped == xs = xs
-  | otherwise     = bubbleSort swapped
-  where swapped = swap xs
-```
-
 ### Binary search tree
 
 ```hs
